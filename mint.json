@@ -50,7 +50,8 @@
         "api-reference/voice-agent/create-voice-agent",
         "api-reference/voice-agent/update-voice-agent",
         "api-reference/voice-agent/delete-voice-agent",
-        "api-reference/voice-agent/get-voice-agents"
+        "api-reference/voice-agent/get-voice-agents",
+        "api-reference/voice-agent/update-webhook-for-plivo"
       ]
     },
     {
@@ -58,8 +59,7 @@
       "pages": [
         "api-reference/calls/start-outbound-phone-call",
         "api-reference/calls/get-call-log-by-call-id",
-        "api-reference/calls/get-call-log-by-agent-id",
-        "api-reference/calls/update-webhook-for-plivo"
+        "api-reference/calls/get-call-log-by-agent-id"
       ]
     }
   ],
