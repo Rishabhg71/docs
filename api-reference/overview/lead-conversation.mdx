@@ -1,0 +1,155 @@
+---
+title: "Creating a Voice Agent with Conditional Prompting"
+description: "A comprehensive guide to designing an intelligent agent that adheres to a specific conversational flow using conditional prompting techniques"
+---
+
+This guide provides a step-by-step approach to designing a conversational agent that follows a predefined flow using conditional prompting. By defining specific steps and conditions, you can create an agent that navigates conversations smoothly and effectively.
+
+<Steps>
+  <Step title="Define the Conversation Flow">
+    Start by outlining the conversation flow. Here is an example scenario for an agent    handling a customer support query:
+    ```mermaid
+        flowchart TD
+          A[What is your name?] --> B(Extract the user's name)
+          B --> C{Are you experiencing issues with your account?}
+          C --> D[Yes]
+          C --> E[No]
+          D --- F[Extract details about the user's account issue]
+          F --- G[Connect with a support specialist]
+          E --- H[Ask how else you can assist you today?]
+    ```
+  </Step>
+  <Step title="Convert the Flow into Steps">
+
+    We have two main parts of conditional prompting here: the general prompt and the   individual steps.
+    - general_prompt: The general prompt sets the tone and manner of the conversation.
+    example:
+    ```
+    ## Identity
+    You are an AI assistant for a customer support center. You are helpful, empathetic,  and efficient in resolving user queries.
+
+    ## Style Guidelines
+    Be Concise: Provide clear and succinct responses.
+    Use Variety: Employ diverse language and rephrasing for clarity without repetition.
+    Be Conversational: Make the interaction feel natural and friendly.
+    Be Proactive: Guide the conversation, often concluding with a question or suggestion.
+    Avoid Multiple Questions: Stick to one question per response.
+    Seek Clarity: If the user's response is unclear, ask follow-up questions.
+    Use Informal Dates: Refer to dates in a colloquial manner (e.g., "Friday, Jan 14th").
+
+    ## Response Guidelines
+    Adapt and Guess: Interpret responses even if there are minor errors. Avoid mentioning errors directly.
+    Stay in Character: Keep the conversation within the role's scope, creatively redirecting as needed.
+    Maintain Smooth Dialogue: Ensure responses are role-appropriate and direct, maintaining a natural flow.
+        ```
+    - steps: This is the array of steps that the conversation will follow. Each step contains the following fields:
+        - step_id: This is the unique ID of the step.
+        - prompt: The prompt for that particular step.
+        - tools: This is the array of tools that the conversation will use.
+
+    Right now we have 2 types of tools calls. 
+    -  extract_data: This tool is used to get any specific data from the user, such as their name, age, etc. It will move the conversation in a linear way.
+    -  yes_or_no: This tool is used to get a yes or no answer from the user. It will move the conversation in a conditional way and can skip steps as well.
+    ```json
+{
+  "prompt": {
+    "steps": [
+      {
+        "step_id": 1,
+        "prompt": "What is your name?",
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "extract_data",
+              "description": "Returns the user's full name",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "Full name of the user"
+                  }
+                },
+                "required": ["data"]
+              }
+            }
+          }
+        ],
+        "next_step": 2
+      },
+      {
+        "step_id": 2,
+        "prompt": "Are you experiencing issues with your account?",
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "yes_or_no",
+              "description": "Returns whether the user is experiencing account issues",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "enum": ["yes", "no"],
+                    "description": "The answer to whether the user is experiencing account issues"
+                  }
+                },
+                "required": ["data"]
+              }
+            }
+          }
+        ],
+        "next_step": {
+          "yes": 3,
+          "no": 4
+        }
+      },
+      {
+        "step_id": 3,
+        "prompt": "I understand you are having issues with your account. Could you please provide more details about the problem?",
+        "tools": [
+          {
+            "type": "function",
+            "function": {
+              "name": "extract_data",
+              "description": "Returns details about the user's account issue",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "Details about the user's account issue"
+                  }
+                },
+                "required": ["data"]
+              }
+            }
+          }
+        ],
+        "next_step": 5
+      },
+      {
+        "step_id": 4,
+        "prompt": "Great! How can I assist you today?",
+        "tools": []
+      },
+      {
+        "step_id": 5,
+        "prompt": "Thank you for the details. I will now connect you with a support specialist who can help resolve your issue.",
+        "tools": []
+      }
+    ],
+    "general_prompt": "Please follow the conversation flow strictly to ensure the user gets the best support."
+  }
+}
+        
+    ```
+
+  </Step>
+  <Step title="Create a agent with that prompt">
+    Use the defined prompt and steps to create an agent. Ensure the agent follows the     conversational flow strictly, using the provided prompts and tools to guide the interaction.
+    This guide should help you set up a conversational agent that adheres to a specific flow using conditional prompting. If you have any questions or need further clarification, please refer to the detailed explanations or reach out for support
+  </Step>
+</Steps>

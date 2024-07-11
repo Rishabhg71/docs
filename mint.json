@@ -1,11 +1,18 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "API Docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
+  "openapi": "http://127.0.0.1:8000/openapi.json",
+  "api": {
+    "baseUrl": "http://127.0.0.1:8000/",
+    "auth": {
+      "method": "bearer"
+    }
+  },
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
@@ -18,74 +25,46 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:vaibhav@infer.so"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Homepage",
+    "url": "https://infer.so/"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Get Started",
+  "tabs": [{
+    "name": "API Reference",
+    "url": "api-reference"
+  }],
+  "navigation": [{
+      "group": "Overview",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "api-reference/overview/getting-started",
+        "api-reference/overview/examples",
+        "api-reference/overview/lead-conversation"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Voice Agent",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "api-reference/voice-agent/create-voice-agent",
+        "api-reference/voice-agent/update-voice-agent",
+        "api-reference/voice-agent/delete-voice-agent",
+        "api-reference/voice-agent/get-voice-agents"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Calls",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/calls/start-outbound-phone-call",
+        "api-reference/calls/get-call-log-by-call-id",
+        "api-reference/calls/get-call-log-by-agent-id"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "website": "https://infer.so",
+    "twitter": "https://twitter.com/withinfer",
+    "linkedin": "https://www.linkedin.com/company/infer-so"
   }
 }

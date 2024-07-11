@@ -1,0 +1,126 @@
+---
+title: 'Getting Started'
+description: 'Step by Step guide to build your first AI Voice Agent'
+---
+
+In this guide, we will show how to integrate Infer API with phone call using Twilio. If you would like to integrate to other platforms, reach out to [us](mailto:vaibhav@infer.so).
+
+<Steps>
+  <Step title="Buy a phone number from Twilio (skip it, if you have one from Twilio)">
+    Go [here](https://www.twilio.com/login) and create an account and buy a phone number from Twilio. If you're creating a new account Twilio will give you $15 to get started and hence it won't put a hole in your pocket. 
+  </Step>
+  <Step title="Get Twilio Auth Token and Account SID">
+    Visit the [Twilio Console API Keys page](https://console.twilio.com/us1/account/keys-credentials/api-keys) to obtain your Twilio Auth Token and Account SID. These details are essential for setting up the Twilio voice webhook, which enables Twilio to determine the appropriate destination for handling your incoming and outgoing calls linked to your Twilio number.
+  </Step>
+  <Step title="Infer API key">
+    You can either email us at vaibhav@infer.so to get the API key or use the API key that we provided you to get started. 
+  </Step>
+  <Step title="Create Your First Voice Agent🤖">
+    Follow the following steps to build your first voice agent. You can also build your first voice agent by directly going [here](https://api.infer.so/api-reference/voice-agent/create-voice-agent) and playing with parameters to make more customized voice agent and understanding different parameters:
+    <CodeGroup>
+    ```javascript createVoiceAgent.js
+    const options = {
+      method: 'POST',
+      headers: {Authorization: '<api-key>', 'Content-Type': 'application/json'},
+      body: '{"background_noise":"typing-audio","end_call_on_goodbye":true,"end_call_on_silence":30,"hipaa_compliance":true,"initial_text":"Welcome to our service. I am an AI voice agent, how can I assist you today?","prompt":"You are a virtual assistant speaking with Infer who can answer queries about any topic.","twilio_account_sid":"<string>","twilio_auth_token":"<string>","twilio_number":"<string>","update_twilio_webhook":true,"voice_agent_expressiveness":0.28,"voice_id":"Alice (female)","volume_of_background_noise":14}'
+    };
+
+    fetch('https://voiceagent.infers.co/api/v1/create_voice_agent/', options)
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => console.error(err));
+    ```
+
+    ```python create-voice-agent.py
+    import requests
+
+    url = "https://voiceagent.infers.co/api/v1/create_voice_agent/"
+
+    payload = {
+        "background_noise": "typing-audio",
+        "end_call_on_goodbye": True,
+        "end_call_on_silence": 30,
+        "hipaa_compliance": True,
+        "initial_text": "Welcome to our service. I am an AI voice agent, how can I assist you today?",
+        "prompt": "You are a virtual assistant speaking with Infer who can answer queries about any topic.",
+        "twilio_account_sid": "<string>",
+        "twilio_auth_token": "<string>",
+        "twilio_number": "<string>",
+        "update_twilio_webhook": True,
+        "voice_agent_expressiveness": 0.28,
+        "voice_id": "Alice (female)",
+        "volume_of_background_noise": 14
+    }
+    headers = {
+        "Authorization": "<api-key>",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.request("POST", url, json=payload, headers=headers)
+
+    print(response.text)
+    ```
+
+    ```java CreateVoiceAgent.java
+    HttpResponse<String> response = Unirest.post("https://voiceagent.infers.co/api/v1/create_voice_agent/")
+    .header("Authorization", "<api-key>")
+    .header("Content-Type", "application/json")
+    .body("{\n  \"background_noise\": \"typing-audio\",\n  \"end_call_on_goodbye\": true,\n  \"end_call_on_silence\": 30,\n  \"hipaa_compliance\": true,\n  \"initial_text\": \"Welcome to our service. I am an AI voice agent, how can I assist you today?\",\n  \"prompt\": \"You are a virtual assistant speaking with Infer who can answer queries about any topic.\",\n  \"twilio_account_sid\": \"<string>\",\n  \"twilio_auth_token\": \"<string>\",\n  \"twilio_number\": \"<string>\",\n  \"update_twilio_webhook\": true,\n  \"voice_agent_expressiveness\": 0.28,\n  \"voice_id\": \"Alice (female)\",\n  \"volume_of_background_noise\": 14\n}")
+    .asString();
+    ```
+    </CodeGroup>
+    Make sure to copy the voice_agent_id from the response. If you face any issues, send us an email [here](mailto:vaibhav@infer.so).
+
+    You can create multiple voice agents for different purposes like one for Outbound Lead Generation another one for handling inbound calls only etc.
+  </Step>
+  <Step title="Initiate your first outbound call📞">
+    Using the voice_agent_id from the last step and after understanding the parameters [here](https://api.infer.so/api-reference/calls/start-outbound-phone-call) run the following code which will initiate the call to the specific number:
+    <CodeGroup>
+    ```javascript outboundCall.js
+    const options = {
+      method: 'POST',
+      headers: {Authorization: '<api-key>', 'Content-Type': 'application/json'},
+      body: '{"initial_text":"Hello, this is your virtual assistant calling. How can I assist you today?","prompt_values":{"name":"John Doe"},"to_phone":"+1234567890","transfer_to":"+10987654321","voice_agent_id":"<string>"}'
+    };
+
+    fetch('https://voiceagent.infers.co/api/v1/start_outbound_call/', options)
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => console.error(err));
+    ```
+
+    ```python outbound-call.py
+    import requests
+
+    url = "https://voiceagent.infers.co/api/v1/start_outbound_call/"
+
+    payload = {
+        "initial_text": "Hello, this is your virtual assistant calling. How can I assist you today?",
+        "prompt_values": {"name": "John Doe"},
+        "to_phone": "+1234567890",
+        "transfer_to": "+10987654321",
+        "voice_agent_id": "<string>"
+    }
+    headers = {
+        "Authorization": "<api-key>",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.request("POST", url, json=payload, headers=headers)
+
+    print(response.text)
+    ```
+
+    ```java OutboundCall.java
+    HttpResponse<String> response = Unirest.post("https://voiceagent.infers.co/api/v1/start_outbound_call/")
+    .header("Authorization", "<api-key>")
+    .header("Content-Type", "application/json")
+    .body("{\n  \"initial_text\": \"Hello, this is your virtual assistant calling. How can I assist you today?\",\n  \"prompt_values\": {\n    \"name\": \"John Doe\"\n  },\n  \"to_phone\": \"+1234567890\",\n  \"transfer_to\": \"+10987654321\",\n  \"voice_agent_id\": \"<string>\"\n}")
+    .asString();
+    ```
+    </CodeGroup>
+
+    To ensure this number receives the incoming call, you don't have to change anything. Just call the Twilio number that you bought. 
+  </Step>
+</Steps>
+
