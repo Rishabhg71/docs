@@ -6,9 +6,9 @@
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
-  "openapi": "http://127.0.0.1:8000/openapi.json",
+  "openapi": "https://ppa.infers.co/openapi.json",
   "api": {
-    "baseUrl": "http://127.0.0.1:8000/",
+    "baseUrl": "https://ppa.infers.co/",
     "auth": {
       "method": "bearer"
     }
@@ -58,7 +58,8 @@
       "pages": [
         "api-reference/calls/start-outbound-phone-call",
         "api-reference/calls/get-call-log-by-call-id",
-        "api-reference/calls/get-call-log-by-agent-id"
+        "api-reference/calls/get-call-log-by-agent-id",
+        "api-reference/calls/update-webhook-for-plivo"
       ]
     }
   ],
